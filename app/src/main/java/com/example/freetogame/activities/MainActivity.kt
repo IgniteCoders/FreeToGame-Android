@@ -1,5 +1,6 @@
 package com.example.freetogame.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -37,7 +38,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        adapter = GameAdapter(gameList)
+        adapter = GameAdapter(gameList) { position ->
+            val game = gameList[position]
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("GAME_ID", game.id)
+            startActivity(intent)
+        }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         //binding.recyclerView.layoutManager = GridLayoutManager(this, 2)

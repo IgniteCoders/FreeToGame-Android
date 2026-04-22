@@ -8,7 +8,7 @@ import com.example.freetogame.data.Game
 import com.example.freetogame.databinding.ItemGameBinding
 import com.squareup.picasso.Picasso
 
-class GameAdapter(var items: List<Game>) : RecyclerView.Adapter<GameViewHolder>() {
+class GameAdapter(var items: List<Game>, val onClick: (Int) -> Unit) : RecyclerView.Adapter<GameViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -19,6 +19,9 @@ class GameAdapter(var items: List<Game>) : RecyclerView.Adapter<GameViewHolder>(
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         val game = items[position]
         holder.render(game)
+        holder.binding.cardView.setOnClickListener {
+            onClick(position)
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -33,7 +36,7 @@ class GameViewHolder(val binding: ItemGameBinding) : RecyclerView.ViewHolder(bin
 
     fun render(game: Game) {
         binding.titleTextView.text = game.title
-        Picasso.get().load(game.image).into(binding.thumbnailImageView);
+        Picasso.get().load(game.image).into(binding.thumbnailImageView)
     }
 
 }
